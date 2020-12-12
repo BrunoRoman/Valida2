@@ -5,6 +5,7 @@ from .serializers import *
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.settings import api_settings
+from rest_framework.decorators import action
 
 class ModeloViewSet(ModelViewSet):
     queryset = Modelo.objects.all()
@@ -20,6 +21,16 @@ class ModeloViewSet(ModelViewSet):
         except Exception as ident:
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,data={'Result':ident})
 
+    @action(detail=True,methods=['put'])
+    def atualizar(self,request,pk=None):
+        try:
+            m = Modelo.objects.get(id=pk)
+            m.comandos.set(request.data['comandos'])
+            print(pk)
+            return Response(status=status.HTTP_200_OK,data={'Atualizado':m.descricao})
+        except Exception as ident:
+            return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,data={'Result':ident})
+
 class ComandoViewSet(ModelViewSet):
     queryset = Comando.objects.all()
     serializer_class = ComandoSerializer
@@ -28,17 +39,7 @@ class ComandoViewSet(ModelViewSet):
 class EquipamentoViewSet(ModelViewSet):
     queryset = Equipamento.objects.all()
     serializer_class = EquipamentoSerializer
-    """
-    def create(self, validated_data):
-        try:
-            equipamento = validated_data['equipamentos']
-            Equipamento.objects.create(**equipamento)
-            equipamento.modelo=Modelo.objects.get(id=int(request.data['modelo']))
-            equipamento.save()
-            return Response(status=status.HTTP_201_CREATED,data=equipamento)
-        except Exception as ident:
-            return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,data={'Result':ident})
-    """
+
     def create(self, request, *args, **kwargs):
         try:
             Equipamento.objects.create(hostname=request.data['hostname'],ip=request.data['ip'],modelo=Modelo.objects.get(id=int(request.data['modelo'])))
@@ -58,6 +59,15 @@ class AmbienteViewSet(ModelViewSet):
                 a.equipamentos.add(Equipamento.objects.get(id=equip))
             return Response(status=status.HTTP_201_CREATED,data={'Result':'criado com sucesso'})
         except Exception as ident:
-            return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,data={'Result':ident})
+            return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,data={'Result':str(ident)})
+    
+    @action(detail=True,methods=['put'])
+    def atualizar(self,request,pk=None):
+        try:
+            a = Ambiente.objects.get(id=pk)
+            a.equipamentos.set(request.data['equipamentos'])
+            return Response(status=status.HTTP_200_OK,data={'atualizado':a.nome})
+        except Exception as ident:
+            return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,data={'Result':str(ident)})
             
     

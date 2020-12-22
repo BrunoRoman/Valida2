@@ -91,7 +91,7 @@ WSGI_APPLICATION = 'valida.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'proj_valida',
+        'NAME': 'proj_valida2',
         'HOST': '127.0.0.1',
         'PORT': 3306,
         'USER':'root',

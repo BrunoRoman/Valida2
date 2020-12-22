@@ -6,7 +6,7 @@ from network.models import *
 class ComandoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comando
-        fields = ('id','sintaxe')
+        fields = ('id','nome','sintaxe')
 
 class ModeloSerializer(serializers.ModelSerializer):
 

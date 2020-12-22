@@ -48,8 +48,20 @@ class EquipamentoViewSet(ModelViewSet):
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,data={'Result':ident})
 
 class AmbienteViewSet(ModelViewSet):
-    queryset = Ambiente.objects.all()
+    
     serializer_class = AmbienteSerializer
+
+    def get_queryset(self):
+        id = self.request.query_params.get('id',None)
+        nome = self.request.query_params.get('nome',None)
+        queryset = Ambiente.objects.all()
+        if id:
+            queryset = Ambiente.objects.filter(id=id)
+        elif nome:
+            queryset = Ambiente.objects.filter(nome=nome)
+        else:
+            queryset = Ambiente.objects.all()
+        return queryset
 
     def create(self, request, *args, **kwargs):
         try:
@@ -69,5 +81,19 @@ class AmbienteViewSet(ModelViewSet):
             return Response(status=status.HTTP_200_OK,data={'atualizado':a.nome})
         except Exception as ident:
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,data={'Result':str(ident)})
+
+
+    @action(detail=True,methods=['post'])
+    def validar(self,request,pk=None):
+        try: 
+            a = Ambiente.objects.get(id=pk)
+            print(a.nome)
+            print(request.data)
+            return Response(status=status.HTTP_200_OK,data={'atualizado':a.nome})
+        except Exception as ident:
+            return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,data={'Result':str(ident)})
+
+
+
             
     

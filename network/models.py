@@ -45,3 +45,11 @@ class Ambiente(models.Model):
     def __str__(self):
         return self.nome
 
+
+class Resultado(models.Model):
+    data = models.DateTimeField()
+    ambiente = models.CharField(max_length=50)
+    hostname = models.CharField(max_length=100)
+    ip = models.CharField(max_length=15)
+    comandos = models.CharField(max_length=100)
+    output = models.TextField()

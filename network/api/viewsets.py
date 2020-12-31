@@ -7,6 +7,9 @@ from rest_framework.response import Response
 from rest_framework.settings import api_settings
 from rest_framework.decorators import action
 
+import requests
+import json
+
 class ModeloViewSet(ModelViewSet):
     queryset = Modelo.objects.all()
     serializer_class = ModeloSerializer
@@ -88,12 +91,20 @@ class AmbienteViewSet(ModelViewSet):
         try: 
             a = Ambiente.objects.get(id=pk)
             print(a.nome)
-            print(request.data)
-            return Response(status=status.HTTP_200_OK,data={'atualizado':a.nome})
+            equipamentos = a.equipamentos.all().values()
+            for i in range(len(equipamentos)):
+                modelos = Modelo.objects.get(id=equipamentos[i]['modelo_id'])
+                comandos = modelos.comandos.all().values()
+                equipamentos[i]['netmiko'] = modelos.netmiko
+                dict_comandos = {}
+                for j in range(len(comandos)):
+                    dict_comandos[comandos[j]['nome']] = comandos[j]['sintaxe']
+                equipamentos[i]['comandos'] = json.dumps(dict_comandos)
+            response = requests.post('http://127.0.0.1:8000/internet/',data=equipamentos[1],auth=('admin','admin'))
+            return Response(status=response.status_code,data={'ok':'cirado'})
         except Exception as ident:
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,data={'Result':str(ident)})
 
 
-
-            
+      
     

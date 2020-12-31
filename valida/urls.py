@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.conf.urls import url,include
 from django.urls import path
 from network.api.viewsets import *
+from internet.api.viewsets import InternetViewSet
 from rest_framework import routers
 
 router = routers.DefaultRouter()
@@ -24,6 +25,7 @@ router.register(r'modelos',ModeloViewSet,basename="Modelo")
 router.register(r'comandos',ComandoViewSet,basename="Comando")
 router.register(r'equipamentos',EquipamentoViewSet,basename="Equipamento")
 router.register(r'ambientes',AmbienteViewSet,basename="Ambiente")
+router.register(r'internet',InternetViewSet,basename="Resultado")
 urlpatterns = [
     path('',include(router.urls)),
     path('admin/', admin.site.urls),

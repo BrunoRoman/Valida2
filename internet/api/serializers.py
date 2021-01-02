@@ -4,4 +4,4 @@ from network.models import Resultado
 class InternetSerializer(serializers.ModelSerializer):
     class Meta:
         model = Resultado
-        fields = ('id','data','ambiente','hostname','comando','output')
+        fields = ('id','data','ambiente','hostname','comandos','output')

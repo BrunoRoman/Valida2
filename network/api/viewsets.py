@@ -93,6 +93,7 @@ class AmbienteViewSet(ModelViewSet):
             print(a.nome)
             equipamentos = a.equipamentos.all().values()
             for i in range(len(equipamentos)):
+                equipamentos[i]['ambiente'] = a.nome
                 modelos = Modelo.objects.get(id=equipamentos[i]['modelo_id'])
                 comandos = modelos.comandos.all().values()
                 equipamentos[i]['netmiko'] = modelos.netmiko

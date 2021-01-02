@@ -33,3 +33,7 @@ class Router(Equipamento):
             except AttributeError:
                 continue
         self._ospf_neighbor = neighbors
+
+    @Equipamento.bgp.setter
+    def bgp(self,val):
+        self._bgp = val

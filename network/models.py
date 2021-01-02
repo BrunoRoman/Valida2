@@ -1,4 +1,5 @@
 from django.db import models
+from datetime import datetime
 
 class Comando(models.Model):
     nome = models.CharField(max_length=100)
@@ -47,7 +48,7 @@ class Ambiente(models.Model):
 
 
 class Resultado(models.Model):
-    data = models.DateTimeField()
+    data = models.DateTimeField(default=datetime.now())
     ambiente = models.CharField(max_length=50)
     hostname = models.CharField(max_length=100)
     ip = models.CharField(max_length=15)

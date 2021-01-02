@@ -9,7 +9,7 @@ class Equipamento(ABC):
 
     @property
     def interfaces(self):
-        return self._ospf_int
+        return self._interfaces
     
     
     @interfaces.setter
@@ -35,4 +35,14 @@ class Equipamento(ABC):
     @ospf_neighbor.setter
     @abstractmethod
     def ospf_neighbor(self,val):
+        pass
+
+    @property
+    def bgp(self):
+        return self._bgp
+    
+    
+    @bgp.setter
+    @abstractmethod
+    def bgp(self,val):
         pass

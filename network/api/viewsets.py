@@ -7,6 +7,8 @@ from rest_framework.response import Response
 from rest_framework.settings import api_settings
 from rest_framework.decorators import action
 
+from network.tasks import connect_device_task
+
 import requests
 import json
 
@@ -101,8 +103,9 @@ class AmbienteViewSet(ModelViewSet):
                 for j in range(len(comandos)):
                     dict_comandos[comandos[j]['nome']] = comandos[j]['sintaxe']
                 equipamentos[i]['comandos'] = json.dumps(dict_comandos)
-            response = requests.post('http://127.0.0.1:8000/internet/',data=equipamentos[1],auth=('admin','admin'))
-            return Response(status=response.status_code,data={'ok':'cirado'})
+            result = connect_device_task.delay(a.nome,equipamentos[i])
+            #response = requests.post('http://127.0.0.1:8000/internet/',data=equipamentos[1],auth=('admin','admin'))
+            return Response(status=status.HTTP_201_CREATED,data={'ok':'criado'})
         except Exception as ident:
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,data={'Result':str(ident)})
 

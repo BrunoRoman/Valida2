@@ -1,0 +1,2 @@
+celery -A proj worker -l info --concurrency=4 
+necessários rodar o celery on the server

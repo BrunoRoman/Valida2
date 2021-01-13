@@ -103,8 +103,9 @@ class AmbienteViewSet(ModelViewSet):
                 for j in range(len(comandos)):
                     dict_comandos[comandos[j]['nome']] = comandos[j]['sintaxe']
                 equipamentos[i]['comandos'] = json.dumps(dict_comandos)
-            result = connect_device_task.delay(a.nome,equipamentos[i])
-            #response = requests.post('http://127.0.0.1:8000/internet/',data=equipamentos[1],auth=('admin','admin'))
+            for equip in equipamentos:
+                result = connect_device_task.delay(a.nome,equipamentos[i])
+                #response = requests.post('http://127.0.0.1:8000/internet/',data=equipamentos[1],auth=('admin','admin'))
             return Response(status=status.HTTP_201_CREATED,data={'ok':'criado'})
         except Exception as ident:
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,data={'Result':str(ident)})

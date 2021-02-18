@@ -1,2 +1,25 @@
 celery -A proj worker -l info --concurrency=4 
 necessários rodar o celery on the server
+
+
+import pandas as pd
+import ipaddress
+
+def aplica_rede(ip):
+    try:
+        ipd = ipaddress.ip_address(ip)
+        indices = rede[rede['rede'].apply(lambda x : ipd in ipaddress.ip_network(x))].index.to_list()
+        for i in indices:
+            return rede.rede[i]
+        return 'Nao encontrado'
+    except ValueError:
+        return 'Nao encontrado'
+
+
+ip = pd.read_csv('ipaddress.csv',delimiter=';')
+rede = pd.read_csv('redes.csv',delimiter=';')
+
+ip['rede']=ip['ipaddress'].apply(aplica_rede)
+
+
+pd.merge(ip, rede, how="left", on=["rede"])

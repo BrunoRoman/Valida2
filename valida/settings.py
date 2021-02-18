@@ -70,13 +70,22 @@ TEMPLATES = [
         },
     },
 ]
-
+"""
 BROKER_URL = 'redis://localhost:6379'
 CELERY_RESULT_BACKEND = 'redis://localhost:6379'
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = 'America/Sao_Paulo'
+"""
+
+BROKER_URL = 'redis://ec2-18-220-6-209.us-east-2.compute.amazonaws.com:6379'
+CELERY_RESULT_BACKEND = 'redis://ec2-18-220-6-209.us-east-2.compute.amazonaws.com:6379'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'America/Sao_Paulo'
+
 
 
 REST_FRAMEWORK = {
@@ -95,17 +104,23 @@ WSGI_APPLICATION = 'valida.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'proj_valida2',
+#         'HOST': '192.168.146.137',
+#         'PORT': 3306,
+#         'USER':'root',
+#         'PASSWORD':'NetDevOps-123'
+#     }
+# }
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'proj_valida2',
-        'HOST': '127.0.0.1',
-        'PORT': 3306,
-        'USER':'root',
-        'PASSWORD':'NetDevOps-123'
+    'default':{
+        'ENGINE':'django.db.backends.sqlite3',
+        'NAME':'mydatabase',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators

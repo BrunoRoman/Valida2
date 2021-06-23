@@ -10,4 +10,4 @@ logger = get_task_logger(__name__)
 
 @task(name="connect_device_task")
 def connect_device_task(ambiente,equipamentos):
-    requests.post(f'http://127.0.0.1:8000/{ambiente}/',data=equipamentos,auth=('admin','admin'))
+    requests.post(f'http://127.0.0.1:8000/{ambiente}/',data=equipamentos,auth=('brunoroman','admin'))

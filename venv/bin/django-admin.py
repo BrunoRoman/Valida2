@@ -1,4 +1,4 @@
-#!/home/brunoroman/Documents/valida_projeto/venv/bin/python3
+#!/home/brunoroman/Valida2/venv/bin/python3
 # When the django-admin.py deprecation ends, remove this script.
 import warnings
 

@@ -79,8 +79,8 @@ CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = 'America/Sao_Paulo'
 """
 
-BROKER_URL = 'redis://ec2-18-220-6-209.us-east-2.compute.amazonaws.com:6379'
-CELERY_RESULT_BACKEND = 'redis://ec2-18-220-6-209.us-east-2.compute.amazonaws.com:6379'
+BROKER_URL = 'redis://ec2-3-141-5-24.us-east-2.compute.amazonaws.com:6379'
+CELERY_RESULT_BACKEND = 'redis://ec2-3-141-5-24.us-east-2.compute.amazonaws.com:6379'
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'

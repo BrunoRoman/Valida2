@@ -15,6 +15,19 @@ class InternetViewSet(ModelViewSet):
     queryset = Resultado.objects.all()
     serializer_class = InternetSerializer
 
+    def get_queryset(self):
+        ambiente = self.request.query_params.get('ambiente',None)
+        data = self.request.query_params.get('data',None)
+        hostname = self.request.query_params.get('hostname',None)
+        queryset = Resultado.objects.all()
+        if data:
+            queryset = queryset.filter(data__gt=data)
+        if hostname:
+            queryset = queryset.filter(hostname=hostname)
+        if ambiente:
+            queryset = queryset.filter(ambiente=ambiente)
+        return queryset
+
     def create(self, request, *args, **kwargs):
         try:
             router = Router(request.data['hostname'],request.data['ip'],request.data['netmiko'],json.loads(request.data['comandos']))

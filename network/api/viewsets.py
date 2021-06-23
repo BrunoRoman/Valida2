@@ -2,6 +2,8 @@ from rest_framework.viewsets import ModelViewSet
 from network.models import *
 from .serializers import *
 
+import datetime
+
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.settings import api_settings
@@ -93,6 +95,15 @@ class AmbienteViewSet(ModelViewSet):
         try: 
             a = Ambiente.objects.get(id=pk)
             print(a.nome)
+            time = datetime.datetime.now() - datetime.timedelta(minutes=5)
+            print(time)
+            payload = {'data': time, 'ambiente': a.nome}
+            r = requests.get(f'http://127.0.0.1:8000/{a.nome}', params=payload)
+            if r.json():
+                return Response(status=status.HTTP_201_CREATED,data={'ok':'criado'})
+            payload = {'hostname': 'R3'}
+            queryset = Resultado.objects.filter(ambiente=a.nome)
+            queryset.delete()
             equipamentos = a.equipamentos.all().values()
             for i in range(len(equipamentos)):
                 equipamentos[i]['ambiente'] = a.nome
@@ -104,8 +115,8 @@ class AmbienteViewSet(ModelViewSet):
                     dict_comandos[comandos[j]['nome']] = comandos[j]['sintaxe']
                 equipamentos[i]['comandos'] = json.dumps(dict_comandos)
             for equip in equipamentos:
-                result = connect_device_task.delay(a.nome,equipamentos[i])
-                #response = requests.post('http://127.0.0.1:8000/internet/',data=equipamentos[1],auth=('admin','admin'))
+                #result = connect_device_task.delay(a.nome,equip)
+                response = requests.post('http://127.0.0.1:8000/internet/',data=equip,auth=('brunoroman','admin'))
             return Response(status=status.HTTP_201_CREATED,data={'ok':'criado'})
         except Exception as ident:
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,data={'Result':str(ident)})
